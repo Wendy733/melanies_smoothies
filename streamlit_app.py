@@ -8,11 +8,11 @@ st.write(
     """Choose the fruits you want in your custom Smoothie!
     """)
 
-cnx = st.connection("snowflake")
-session = cnx.session()
-
 name_on_order = st.text_input("Name on Smoothies:")
 st.write("The name on your Smoothie will be: ", name_on_order)
+
+cnx = st.connection("snowflake")
+session = cnx.session()
 
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'))
 
@@ -27,10 +27,8 @@ if ingredients_list:
     for fruit_chosen in ingredients_list:
         ingredients_string += fruit_chosen
     
-    #my_insert_stmt = """ 
-    insert into smoothies.public.orders(ingredients,name_on_order)
-            values ('""" + ingredients_string + """','"""+ name_on_order +"""')
-    #"""
+    my_insert_stmt = """ insert into smoothies.public.orders(ingredients,name_on_order)
+            values ('""" + ingredients_string + """','"""+ name_on_order +"""') """
 
 #st.stop()
 #st.write(my_insert_stmt)
